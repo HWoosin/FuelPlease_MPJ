@@ -168,13 +168,14 @@
 	    	<version>1.16</version>
 		</dependency>
 	
-		<!-- Test -->
+		<!-- junit-jupiter-api 
+		(Junit5: 테스트 환경을 구성해 주고, 여러 기능을 제공하는 라이브러리) -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.7</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.8.2</version>
 			<scope>test</scope>
-		</dependency>        
+		</dependency>      
 	</dependencies>
     <build>
         <plugins>
