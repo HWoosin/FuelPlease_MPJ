@@ -11,9 +11,8 @@ create table users (
 	zip_cd varchar(50)
 );
 select * from users;
+show databases;
 
-create database fuelp;
-create user 'fuel'@localhost identified by 'fuel';
 
 grant all privileges on fueldb.* to fuel@localhost;
 
