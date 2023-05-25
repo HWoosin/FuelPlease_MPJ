@@ -2,7 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.spring.myweb.user.mapper.IUserMapper">
+<mapper namespace="com.spring.fuelplease.user.mapper.IUserMapper">
+
+	<resultMap type="user" id="userMap">
+		<result property="userId" column="user_id" />
+		<result property="userPw" column="user_pw" />
+		<result property="userName" column="user_name" />
+		<result property="userPhone1" column="user_phone1" />
+		<result property="userPhone2" column="user_phone2" />
+		<result property="userEmail1" column="user_email1" />
+		<result property="userEmail2" column="user_email2" />
+		<result property="userAddr" column="user_addr" />
+		<result property="addrDetail" column="addrDetail" />
+		<result property="zipCd" column="zip_cd" />
+	</resultMap>
+    
+    
+    
+    
+    <!-- 마이페이지 -->
+    <select id="getInfo" resultMap="userMap">
+    	select
+    		user_name, user_phone1, user_phone2,
+    		user_email1, user_email2,
+    		user_addr, addr_detail, zip_cd
+    	from users
+    	where user_id = #{id}
+    </select>
     
     
 </mapper>
