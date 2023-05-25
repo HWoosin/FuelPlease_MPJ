@@ -1,14 +1,28 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
-<html>
-<head>
-	<title>Home</title>
-</head>
-<body>
-<h1>
-	Hello world!  
-</h1>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
-<P>  The time on the server is ${serverTime}. </P>
-</body>
-</html>
+    <%@ include file="include/header.jsp" %>
+
+    <section>
+
+        <div class="container">
+            <div class="main">
+                <!--메인-->
+                <h2>fuel please</h2>
+            </div>
+        </div>
+        <!--검색바-->
+        <div class="serach">
+            <input type="text" class="form-control" placeholder="Search">
+            <div class="input-btn">
+                <button class="btn" type="submit">
+                    통합검색
+                </button>
+            </div>
+        </div>
+
+        div.
+
+    </section>
+
+    <%@ include file="include/footer.jsp" %>
