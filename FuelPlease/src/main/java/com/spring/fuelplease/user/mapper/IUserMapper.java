@@ -12,6 +12,6 @@ public interface IUserMapper {
 	void userJoin(UserVO vo);
 	
 	//아이디 중복확인
-	
+	int idCheck(String id);
 	//회원정보 수정
 }

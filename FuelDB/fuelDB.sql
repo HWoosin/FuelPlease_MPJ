@@ -13,6 +13,5 @@ create table users (
 select * from users;
 show databases;
 
-
 grant all privileges on fueldb.* to fuel@localhost;
 

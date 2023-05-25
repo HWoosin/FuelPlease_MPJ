@@ -11,47 +11,35 @@
                 </div>
                 <form action="${pageContext.request.contextPath}/user/userJoin" method="post" name="joinForm">
                     <div class="form-group">
-                        <!--사용자클래스선언-->
                         <label for="id">아이디</label>
                         <div class="input-group">
-                            <!--input2탭의 input-addon을 가져온다 -->
                             <input type="text" name ="userId" class="form-control" id="userId" placeholder="아이디를 (영문포함 4~12자 이상)">
                             <div class="input-group-addon">
                                 <button type="button" class="btn btn-primary" id="idCheckBtn">아이디중복체크</button>
                             </div>
                         </div>
                         <span id="msgId"></span>
-                        <!--자바스크립트에서 추가-->
                     </div>
                     <div class="form-group">
-                        <!--기본 폼그룹을 가져온다-->
                         <label for="password">비밀번호</label>
                         <input type="password" name="userPw" class="form-control" id="userPw"
                             placeholder="비밀번호 (영 대/소문자, 숫자 조합 8~16자 이상)">
                         <span id="msgPw"></span>
-                        <!--자바스크립트에서 추가-->
                     </div>
                     <div class="form-group">
                         <label for="password-confrim">비밀번호 확인</label>
                         <input type="password" class="form-control" id="pwConfirm" placeholder="비밀번호를 확인해주세요.">
                         <span id="msgPw-c"></span>
-                        <!--자바스크립트에서 추가-->
                     </div>
                     <div class="form-group">
                         <label for="name">이름</label>
                         <input type="text" name="userName" class="form-control" id="userName" placeholder="이름을 입력하세요.">
                     </div>
-                    <!--input2탭의 input-addon을 가져온다 -->
                     <div class="form-group">
                         <label for="hp">휴대폰번호</label>
                         <div class="input-group">
-                            <select name="userPhone1" class="form-control phone1" id="userPhone1">
-                                <option>010</option>
-                                <option>011</option>
-                                <option>017</option>
-                                <option>018</option>
-                            </select>
-                            <input type="text" name="userPhone2" class="form-control phone2" id="userPhone2" placeholder="휴대폰번호를 입력하세요.">
+                            <input type="text" name="userPhone1" class="form-control phone1" id="userPhone1" placeholder="ex)010">
+                            <input type="text" name="userPhone2" class="form-control phone2" id="userPhone2" placeholder="번호를 입력해주세요">
                         </div>
                     </div>
                     <div class="form-group email-form">
@@ -107,3 +95,46 @@
         </div>
     </div>
 </section>
+
+<script>
+
+    //아이디 중복체크버튼 이벤트
+    document.getElementById('idCheckBtn').onclick = function(){
+        const msgId = document.getElementById('msgId')
+        const id = document.getElementById('userId').value;
+        if(id === ''){
+            alert('아이디를 입력해주세요.');
+        }
+        else{
+        	fetch('${pageContext.request.contextPath}/user/idCheck',
+                    {
+                        method: 'post',
+                        headers: {
+                            'Content-type': 'text/plain'
+                        },
+                        body: id
+                    })
+                    .then (res => res.text())
+                        .then(data => {
+                            if(data === '1'){
+                            	msgId.textContent = '이미 사용중인 아이디.'
+                                console.log(data);
+                            }
+                            else {
+                            	msgId.textContent = '사용 가능한 아이디.'
+                                console.log(data);
+                            }
+                        })
+        }
+
+        
+
+       
+
+    }
+
+    document.getElementById('joinBtn').onclick = function(){
+        document.joinForm.submit();
+    } 
+
+</script>
