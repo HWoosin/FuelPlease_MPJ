@@ -96,6 +96,7 @@
     </div>
 </section>
 
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
     //아이디 중복체크버튼 이벤트
@@ -126,13 +127,58 @@
                             }
                         })
         }
-
-        
-
        
+    }//중복체크 끝
+    
+  //인증번호 이메일 발송
+    document.getElementById('mail-check-btn').onclick = function(){
+        const email = document.getElementById('userEmail1').value
+                        + document.getElementById('userEmail2').value;
+        
+        console.log('완성된 email:' + email);   
+        fetch('${pageContext.request.contextPath}/user/mailCheck?email='+email)
+            .then(res => res.text())
+            	.then(data => {
+            		console.log('인증번호: '+data);
+            		//비활성된 인증번호 입력창 활성화
+                    document.querySelector('.mail-check-input').disabled = false;
+                    code = data; //인증번호를 전역변수에 저장
+                    alert('인증번호가 전송되었습니다. 확인후 입력란에 정확히 입력하세요.');
+            	});//비동기 끝.
+    }; //인증번호 발송 이벤트 끝.
+    
+    //인증번호 검증
+    document.querySelector('.mail-check-input').onblur = function(e){
+        //console.log('blur이벤트 발생 확인!');
+        
+        const inputCode = e.target.value; //사용자가 입력한 인증번호.
+        const $resultMsg = document.getElementById('mail-check-warn');
+        console.log('사용자가 입력한 값: ' + inputCode);
+        
+        if(inputCode === code){
+            $resultMsg.textContent ='인증번호가 일치합니다.';
+            $resultMsg.style.color = 'green';
+            document.getElementById('mail-check-btn').disabled = true;
+            document.getElementById('userEmail1').setAttribute('readonly',true);
+            document.getElementById('userEmail2').setAttribute('readonly',true);
+            e.target.style.display = 'none'; //인증번호 입력창 숨기기
 
-    }
+            //초기값을 사용자가 선택한 값으로 무조건 설정하는 방법(select에서 readonly 대용)
+            //항상 2개같이 써야한다.
+            const email2 = document.getElementById('userEmail2');
 
+            email2.setAttribute('onFocus', 'this.initialSelect = this.selectedIndex');
+            email2.setAttribute('onChange', 'this.selectedIndex = this.initialSelect');
+        }
+        else{
+            $resultMsg.textContent ='인증번호를 다시 확인해 주세요.'
+            $resultMsg.style.color = 'red';
+            e.target.focus(); //다시 입력할 수 있도록 포커싱 추가.
+        }
+    }//인증 번호 검증 끝
+    
+
+    //확인용 가입처리버튼
     document.getElementById('joinBtn').onclick = function(){
         document.joinForm.submit();
     } 

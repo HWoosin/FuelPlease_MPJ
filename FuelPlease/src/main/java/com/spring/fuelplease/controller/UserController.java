@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.fuelplease.user.service.IUserService;
+import com.spring.fuelplease.util.MailSenderService;
 import com.spring.fuelplease.voCenter.UserVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,8 @@ public class UserController {
 
 	@Autowired
 	private IUserService sv;
+	@Autowired
+	private MailSenderService mailsv;
 	
 	@GetMapping("/userLogin")//로그인 페이지 이동
 	public void loginPage() {
@@ -31,13 +34,13 @@ public class UserController {
 		
 	}
 	
-	@PostMapping("/userJoin")
+	@PostMapping("/userJoin")//가입 후 홈으로 이동
 	public String join(UserVO vo) {
 		sv.userJoin(vo);
 		return "redirect:/home";
 	}
 	
-	@PostMapping("/idCheck")
+	@PostMapping("/idCheck")//아이디중복체크
 	@ResponseBody
 	public int idCheck(@RequestBody String id) {
 		log.info("사용자가 입력한 아이디: "+id);
@@ -46,5 +49,12 @@ public class UserController {
 		}
 		else return 0;
 	}
+	
+	@GetMapping("/mailCheck")//이메일 인증
+	@ResponseBody
+	public String mailCheck(String email) {
+		log.info("이메일 인증 요청 들어옴: "+email);
+		return mailsv.joinEmail(email);
+		}
 	
 }
