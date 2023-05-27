@@ -15,3 +15,5 @@ show databases;
 
 grant all privileges on fueldb.* to fuel@localhost;
 
+create user 'fuel'@'localhost' identified by 'fuel';
+grant all privileges on fueldb.* to 'fuel'@'localhost';

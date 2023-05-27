@@ -99,6 +99,9 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
+    let idFlag, pwFlag;//유효성 검증
+    let code = ''; //인증번호 저장
+    
     //아이디 중복체크버튼 이벤트
     document.getElementById('idCheckBtn').onclick = function(){
         const msgId = document.getElementById('msgId')
@@ -106,6 +109,11 @@
         if(id === ''){
             alert('아이디를 입력해주세요.');
         }
+        else if(!idFlag){
+            alert('아이디 생성 조건을 확인해주세요.');
+            return;
+        }
+        
         else{
         	fetch('${pageContext.request.contextPath}/user/idCheck',
                     {
@@ -163,8 +171,6 @@
             document.getElementById('userEmail2').setAttribute('readonly',true);
             e.target.style.display = 'none'; //인증번호 입력창 숨기기
 
-            //초기값을 사용자가 선택한 값으로 무조건 설정하는 방법(select에서 readonly 대용)
-            //항상 2개같이 써야한다.
             const email2 = document.getElementById('userEmail2');
 
             email2.setAttribute('onFocus', 'this.initialSelect = this.selectedIndex');
@@ -177,10 +183,111 @@
         }
     }//인증 번호 검증 끝
     
+  //카카오 API
+    function searchAddress() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-    //확인용 가입처리버튼
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('addrZipNum').value = data.zonecode;
+                document.getElementById("addrBasic").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("addrDetail").focus();
+            }
+        }).open();
+    } //주소찾기 api끝
+    
+
+    /* //확인용 가입처리버튼
     document.getElementById('joinBtn').onclick = function(){
         document.joinForm.submit();
-    } 
+    }  
+    */
+    
+  	//폼 데이터 검증 (회원 가입 버튼 눌렀을 시)
+    document.getElementById('joinBtn').onclick = function() {
+        
+        if(idFlag && pwFlag){
+            if(!document.getElementById('userId').getAttribute('readonly')){
+            alert('아이디 중복체크는 필수 입니다.');
+            return;
+        }
+        if(document.getElementById('userPw').value != document.getElementById('pwConfirm').value){
+            alert('비밀번호 확인란을 확인하세요!');
+            return;
+            z
+        }
+        if(document.getElementById('userName').value === ''){
+            alert('이름은 필수값 입니다.');
+            return;
+        }
+        if(!document.getElementById('mail-check-btn').disabled){
+            alert('이메일 인증을 완료해 주세요.');
+            return;
+        }
+        if(confirm('회원가입을 진행합니다.')){
+            document.joinForm.submit();
+        }
+        else return;
+        }
+        else {
+            alert('입력값을 다시 한 번 확인하세요!');
+        }
+    }
+    
+    //아이디 형식 검사 스크립트
+    var id = document.getElementById("userId");
+    id.onkeyup = function() {
+        //test메서드를 통해 비교하며, 매칭되면 true, 아니면 false반환
+        var regex = /^[A-Za-z0-9+]{4,12}$/; 
+        if(regex.test(document.getElementById("userId").value )) {
+            document.getElementById("userId").style.borderColor = "green";
+            document.getElementById("msgId").innerHTML = "아이디중복체크는 필수 입니다";
+            idFlag =true;
+        } else {
+            document.getElementById("userId").style.borderColor = "red";
+            document.getElementById("msgId").innerHTML = "부적합한 아이디 입니다.";
+            idFlag =false;
+        }
+    }
+    //비밀번호 형식 검사 스크립트
+    var pw = document.getElementById("userPw");
+    pw.onkeyup = function(){
+        var regex = /^[A-Za-z0-9+]{8,16}$/;
+         if(regex.test(document.getElementById("userPw").value )) {
+            document.getElementById("userPw").style.borderColor = "green";
+            document.getElementById("msgPw").innerHTML = "사용가능합니다";
+            pwFlag =true;
+        } else {
+            document.getElementById("userPw").style.borderColor = "red";
+            document.getElementById("msgPw").innerHTML = "올바른 비밀번호를 입력하세요";
+            pwFlag =false;
+        }
+    }
+    //비밀번호 확인검사
+    var pwConfirm = document.getElementById("pwConfirm");
+    pwConfirm.onkeyup = function() {
+        var regex = /^[A-Za-z0-9+]{8,16}$/;
+        if(document.getElementById("pwConfirm").value == document.getElementById("userPw").value ) {
+            document.getElementById("pwConfirm").style.borderColor = "green";
+            document.getElementById("msgPw-c").innerHTML = "비밀번호가 일치합니다";
+        } else {
+            document.getElementById("pwConfirm").style.borderColor = "red";
+            document.getElementById("msgPw-c").innerHTML = "비밀번호 확인란을 확인하세요";
+        }
+    }    
 
 </script>
