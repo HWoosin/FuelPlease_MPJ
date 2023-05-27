@@ -2,7 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.spring.myweb.user.mapper.IUserMapper">
+<mapper namespace="com.spring.fuelplease.user.mapper.IUserMapper">
     
+    <insert id="userJoin">
+    	insert into users
+    	(user_id, user_pw, user_name, user_phone1, user_phone2, 
+    	user_email1, user_email2, user_addr, addr_detail, zip_cd)
+    	values
+    	(#{userId},#{userPw},#{userName},#{userPhone1},#{userPhone2},
+		#{userEmail1},#{userEmail2},#{userAddr},#{addrDetail},#{zipCd})
+    </insert>
+    
+    <select id="idCheck" resultType = "int">
+    	select count(*) from users where user_id = #{userId}
+    </select>
     
 </mapper>
