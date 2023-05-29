@@ -4,8 +4,6 @@ import com.spring.fuelplease.voCenter.UserVO;
 
 public interface IUserMapper {
 
-	//회원정보 얻어오기
-	UserVO getInfo(String id);
 		
 	//로그인
 	String login(String id, String pw);
@@ -16,6 +14,10 @@ public interface IUserMapper {
 	//아이디 중복확인
 	int idCheck(String id);
 		
+	//회원정보 얻어오기
+	UserVO getInfo(String id);
+
 	//회원정보 수정
 	void updateUser(UserVO vo);
+
 }

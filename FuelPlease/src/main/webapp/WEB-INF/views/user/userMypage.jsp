@@ -87,14 +87,14 @@
 										<tr>
 											<td class="m-title">*우편번호</td>
 											<td><input class="form-control input-sm"
-												name="addrZipNum" value="${userInfo.addrZipNum}" readonly>
+												name="zipCd" value="${userInfo.addrZipNum}" readonly>
 												<button type="button" class="btn btn-primary" id="addBtn">주소찾기</button>
 											</td>
 										</tr>
 										<tr>
 											<td class="m-title">*주소</td>
 											<td><input class="form-control input-sm add"
-												name="addrBasic" value="${userInfo.addrBasic}"></td>
+												name="userAddr" value="${userInfo.addrBasic}"></td>
 										</tr>
 										<tr>
 											<td class="m-title">*상세주소</td>
@@ -112,7 +112,7 @@
 						</div>
 						<!-- 첫번째 토글 끝 -->
 						<!-- 두번째 토글 메뉴 시작 -->
-						<div id="myBoard" class="tab-pane fade">
+						<%-- <div id="myBoard" class="tab-pane fade">
 							<p>*내 게시글 관리</p>
 							<form>
 								<table class="table">
@@ -163,7 +163,7 @@
 									</tbody>
 								</table>
 							</form>
-						</div>
+						</div> --%>
 						<!-- 두번째 토글 끝 -->
 						<div id="menu2" class="tab-pane fade">
 							<h3>Menu 2</h3>

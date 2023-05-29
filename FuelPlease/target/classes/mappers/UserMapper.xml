@@ -4,7 +4,7 @@
     
 <mapper namespace="com.spring.fuelplease.user.mapper.IUserMapper">
 
-	<resultMap type="user" id="userMap">
+	<resultMap type="com.spring.fuelplease.voCenter.UserVO" id="userMap">
 		<result property="userId" column="user_id" />
 		<result property="userPw" column="user_pw" />
 		<result property="userName" column="user_name" />
@@ -13,7 +13,7 @@
 		<result property="userEmail1" column="user_email1" />
 		<result property="userEmail2" column="user_email2" />
 		<result property="userAddr" column="user_addr" />
-		<result property="addrDetail" column="addrDetail" />
+		<result property="addrDetail" column="addr_detail" />
 		<result property="zipCd" column="zip_cd" />
 	</resultMap>
     
